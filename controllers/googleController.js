@@ -60,11 +60,19 @@ const getEmails = (req, res) => {
           const payload = msg.data.payload;
           let body = "";
           let sender = "";
+          let reciever = "";
+          let subject = "";
           // Extract the sender's email from the headers
           const headers = payload.headers;
           headers.forEach((header) => {
             if (header.name === "From") {
               sender = header.value;
+            }
+            if (header.name === "To") {
+              reciever = header.value;
+            }
+            if (header.name === "Subject") {
+              subject = header.value;
             }
           });
           if (payload.parts) {
@@ -85,6 +93,8 @@ const getEmails = (req, res) => {
             snippet: msg.data.snippet,
             body,
             sender, // Include the sender's email in the response
+            reciever,
+            subject,
           };
         });
 
@@ -98,9 +108,6 @@ const getEmails = (req, res) => {
       res.status(400).send(`Error retrieving emails: ${error.message}`);
     });
 };
-
-
-
 
 module.exports = {
   getAuthUrl,
