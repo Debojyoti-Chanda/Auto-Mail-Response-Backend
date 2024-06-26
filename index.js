@@ -2,6 +2,7 @@
 const express = require('express');
 const session = require('express-session');
 const dotenv = require("dotenv");
+const googleRoutes = require('./routes/googleRoutes');
 const app = express();
 
 
@@ -18,7 +19,7 @@ app.use(session({
   }));
 
 
-
+app.use('/', googleRoutes);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
