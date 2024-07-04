@@ -1,13 +1,11 @@
-// controllers/googleController.js
-
-const oAuth2Client = require("../config/googleConfig");
-const { google } = require("googleapis");
+// controllers/googleController.mjs
+import oAuth2Client, {SCOPES} from "../config/googleConfig.mjs";
+import { google } from "googleapis";
 
 const getAuthUrl = (req, res) => {
-  const scopes = ["https://www.googleapis.com/auth/gmail.readonly"];
   const url = oAuth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: scopes,
+    scope: SCOPES,
   });
   res.redirect(url);
 };
@@ -109,8 +107,6 @@ const getEmails = (req, res) => {
     });
 };
 
-module.exports = {
-  getAuthUrl,
-  handleOAuth2Callback,
-  getEmails,
-};
+
+
+export default { getAuthUrl, handleOAuth2Callback, getEmails };
