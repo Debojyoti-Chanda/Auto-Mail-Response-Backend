@@ -127,18 +127,18 @@ const generateAndSendResponsesByGoogle = (req, res) => {
           text,
         ].join("\n");
 
-        // const encodedMessage = Buffer.from(rawMessage)
-        //   .toString("base64")
-        //   .replace(/\+/g, "-")
-        //   .replace(/\//g, "_")
-        //   .replace(/=+$/, "");
+        const encodedMessage = Buffer.from(rawMessage)
+          .toString("base64")
+          .replace(/\+/g, "-")
+          .replace(/\//g, "_")
+          .replace(/=+$/, "");
 
-        // return gmail.users.messages.send({
-        //   userId: "me",
-        //   requestBody: {
-        //     raw: encodedMessage,
-        //   },
-        // });
+        return gmail.users.messages.send({
+          userId: "me",
+          requestBody: {
+            raw: encodedMessage,
+          },
+        });
       })
       .catch((error) => {
         throw new Error(

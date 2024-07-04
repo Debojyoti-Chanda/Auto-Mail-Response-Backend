@@ -30,7 +30,7 @@ const getEmails = (req, res) => {
   // Retrieve the first 2 messages or the next page if pageToken is provided
   const listParams = {
     userId: "me",
-    maxResults: 2,
+    maxResults: 1,
   };
 
   if (pageToken) {
