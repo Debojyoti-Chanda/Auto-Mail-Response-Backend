@@ -1,29 +1,21 @@
 // controllers/googleController.mjs
-import oAuth2Client, {SCOPES} from "../config/googleConfig.mjs";
+import oAuth2Client, {SCOPES , gmailAuthUrl ,getGmailToken ,getGmailClient } from "../config/googleConfig.mjs";
 import { google } from "googleapis";
 
 const getAuthUrl = (req, res) => {
-  const url = oAuth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: SCOPES,
-  });
+  const url = gmailAuthUrl;
   res.redirect(url);
 };
 
-const handleOAuth2Callback = (req, res) => {
+const handleOAuth2Callback = async (req, res) => {
   const { code } = req.query;
-  oAuth2Client
-    .getToken(code)
-    .then(({ tokens }) => {
-      oAuth2Client.setCredentials(tokens);
-      // Save tokens in session
-      req.session.tokens = tokens;
-
-      res.send("Authentication successful! You can now close this tab.");
-    })
-    .catch((error) => {
+  try {
+    const token = await getGmailToken(code);
+    req.session.tokens = token;
+    res.send("Authentication successful! You can now close this tab.");
+  } catch (error) {
       res.status(400).send(`Error during authentication: ${error.message}`);
-    });
+  };
 };
 
 const getEmails = (req, res) => {
@@ -32,7 +24,7 @@ const getEmails = (req, res) => {
   }
   oAuth2Client.setCredentials(req.session.tokens);
 
-  const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
+  const gmail = getGmailClient();
   const { pageToken } = req.query;
 
   // Retrieve the first 2 messages or the next page if pageToken is provided

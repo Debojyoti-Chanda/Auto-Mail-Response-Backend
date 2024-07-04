@@ -13,5 +13,21 @@ const SCOPES = [
   'https://www.googleapis.com/auth/gmail.modify'
 ];
 
+
+const gmailAuthUrl = oAuth2Client.generateAuthUrl({
+  access_type: 'offline',
+  scope: SCOPES,
+});
+
+const getGmailToken = async (code) => {
+  const { tokens } = await oAuth2Client.getToken(code);
+  oAuth2Client.setCredentials(tokens);
+  return tokens;
+};
+
+const getGmailClient = () => {
+  return google.gmail({ version: 'v1', auth: oAuth2Client });
+};
+
 export default oAuth2Client;
-export { SCOPES };
+export { SCOPES , gmailAuthUrl ,getGmailToken ,getGmailClient};
