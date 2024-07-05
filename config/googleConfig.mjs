@@ -1,9 +1,11 @@
 // config/googleConfig.mjs
 import { google } from 'googleapis';
+import dotenv from 'dotenv'; // Load dotenv package
+dotenv.config()
 
 const oAuth2Client = new google.auth.OAuth2(
-  '546394500474-f4ea91ole8v5vur689ja90qudsmeaj9i.apps.googleusercontent.com',
-  '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',
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
   'http://localhost:8080/oauth2callback'
 );
 
