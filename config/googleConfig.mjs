@@ -1,4 +1,4 @@
-// googleConfig.mjs
+// config/googleConfig.mjs
 import { google } from 'googleapis';
 
 const oAuth2Client = new google.auth.OAuth2(

@@ -27,7 +27,7 @@ const getEmails = (req, res) => {
   const gmail = getGmailClient();
   const { pageToken } = req.query;
 
-  // Retrieve the first 2 messages or the next page if pageToken is provided
+  // Retrieve the last 1 messages or the next page if pageToken is provided
   const listParams = {
     userId: "me",
     maxResults: 1,
